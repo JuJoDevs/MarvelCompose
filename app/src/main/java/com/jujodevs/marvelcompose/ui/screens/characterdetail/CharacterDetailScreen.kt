@@ -51,7 +51,7 @@ import com.jujodevs.marvelcompose.ui.theme.MarvelComposeTheme
 fun CharacterDetailScreen(
     id: Int,
     modifier: Modifier = Modifier,
-    onBack: () -> Unit = {},
+    onUpClick: () -> Unit = {},
 ) {
     var characterState by remember { mutableStateOf<Character?>(null) }
     LaunchedEffect(Unit) {
@@ -62,7 +62,7 @@ fun CharacterDetailScreen(
         CharacterDetailScreen(
             character = c,
             modifier = modifier,
-            onBack = onBack
+            onUpClick = onUpClick
         )
     } ?: Box(contentAlignment = Alignment.Center) {
         CircularProgressIndicator(modifier = Modifier.size(52.dp))
@@ -74,16 +74,17 @@ fun CharacterDetailScreen(
 fun CharacterDetailScreen(
     character: Character,
     modifier: Modifier = Modifier,
-    onBack: () -> Unit = {},
+    onUpClick: () -> Unit = {},
 ) {
     Scaffold(
         topBar = {
             CustomTopAppBar(
                 title = { Text(text = character.name) },
                 navigationIcon = {
-                    IconButton(onClick = { onBack() }) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                    }
+                    ArrowBackIcon(onUpClick)
+                },
+                actions = {
+                    AppBarOverflowMenu(character.urls)
                 }
             )
         },
@@ -104,6 +105,13 @@ fun CharacterDetailScreen(
         },
         modifier = modifier
     )
+}
+
+@Composable
+private fun ArrowBackIcon(onBack: () -> Unit) {
+    IconButton(onClick = { onBack() }) {
+        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+    }
 }
 
 fun LazyListScope.section(icon: ImageVector, name: String, items: List<Reference>) {

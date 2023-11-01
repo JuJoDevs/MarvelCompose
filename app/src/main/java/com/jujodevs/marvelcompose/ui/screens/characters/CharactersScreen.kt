@@ -1,6 +1,7 @@
 package com.jujodevs.marvelcompose.ui.screens.characters
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -20,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -29,6 +31,7 @@ import coil.compose.AsyncImage
 import com.jujodevs.marvelcompose.R
 import com.jujodevs.marvelcompose.data.entities.Character
 import com.jujodevs.marvelcompose.data.repositories.CharactersRepository
+import com.jujodevs.marvelcompose.ui.screens.characterdetail.AppBarOverflowMenu
 import com.jujodevs.marvelcompose.ui.shares.CustomTopAppBar
 import com.jujodevs.marvelcompose.ui.theme.MarvelComposeTheme
 
@@ -88,14 +91,20 @@ fun CharacterItem(character: Character, modifier: Modifier = Modifier) {
         modifier = modifier.padding(8.dp)
     ) {
         Card {
-            AsyncImage(
-                model = character.thumbnail,
-                contentDescription = character.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-            )
+            Box {
+                AsyncImage(
+                    model = character.thumbnail,
+                    contentDescription = character.name,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
+                )
+                AppBarOverflowMenu(
+                    urls = character.urls,
+                    Modifier.align(Alignment.TopEnd)
+                )
+            }
         }
         Text(
             text = character.name,

@@ -2,8 +2,10 @@ package com.jujodevs.marvelcompose.data.repositories
 
 import com.jujodevs.marvelcompose.data.entities.Character
 import com.jujodevs.marvelcompose.data.entities.Reference
+import com.jujodevs.marvelcompose.data.entities.Url
 import com.jujodevs.marvelcompose.data.network.ApiClient
 import com.jujodevs.marvelcompose.data.network.entities.ApiCharacter
+import com.jujodevs.marvelcompose.data.network.entities.ApiUrl
 import com.jujodevs.marvelcompose.data.network.entities.asString
 
 object CharactersRepository {
@@ -39,6 +41,9 @@ fun ApiCharacter.asCharacter(): Character {
         comics,
         events,
         stories,
-        series
+        series,
+        urls.map { it.asUrl() }
     )
 }
+
+fun ApiUrl.asUrl(): Url = Url(type, url)

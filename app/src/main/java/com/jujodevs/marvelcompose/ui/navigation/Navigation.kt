@@ -40,7 +40,7 @@ private fun NavGraphBuilder.charactersNav(
     composable(NavItem.CharacterDetail) {
         CharacterDetailScreen(
             id = it.findArg(NavArg.ItemId),
-            onBack = { navController.popBackStack() }
+            onUpClick = { navController.popBackStack() }
         )
     }
 }
