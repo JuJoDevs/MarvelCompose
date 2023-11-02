@@ -23,6 +23,8 @@ import com.jujodevs.marvelcompose.data.entities.Url
 
 @Composable
 fun AppBarOverflowMenu(urls: List<Url>, modifier: Modifier = Modifier) {
+    if (urls.isEmpty()) return
+
     var showMenu by remember {
         mutableStateOf(false)
     }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Marvel Compose</string>
+    <string name="share_character">Share character</string>
 </resources>
