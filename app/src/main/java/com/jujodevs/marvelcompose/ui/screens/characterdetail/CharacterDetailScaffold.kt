@@ -3,9 +3,11 @@ package com.jujodevs.marvelcompose.ui.screens.characterdetail
 import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -42,17 +44,30 @@ fun CharacterDetailScaffold(
             )
         },
         content = content,
-        floatingActionButton = {
-            if (character.urls.isNotEmpty()) {
-                FloatingActionButton(onClick = { shareCharacter(context, character) }) {
-                    Icon(
-                        imageVector = Icons.Default.Share,
-                        contentDescription = stringResource(R.string.share_character)
+        bottomBar = {
+            BottomAppBar(
+                actions = {
+                    AppBarIcon(
+                        imageVector = Icons.Default.Menu,
+                        onClick = { /*TODO*/ }
                     )
+                    AppBarIcon(
+                        imageVector = Icons.Default.Favorite,
+                        onClick = { /*TODO*/ }
+                    )
+                },
+                floatingActionButton = {
+                    if (character.urls.isNotEmpty()) {
+                        FloatingActionButton(onClick = { shareCharacter(context, character) }) {
+                            Icon(
+                                imageVector = Icons.Default.Share,
+                                contentDescription = stringResource(R.string.share_character)
+                            )
+                        }
+                    }
                 }
-            }
+            )
         },
-        floatingActionButtonPosition = FabPosition.Center,
         modifier = modifier
     )
 }
