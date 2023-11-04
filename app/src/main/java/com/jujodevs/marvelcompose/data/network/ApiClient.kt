@@ -29,7 +29,9 @@ object ApiClient {
         .client(okHttpClient)
         .build()
 
-    val charactersService: CharactersService = restAdapter.create(CharactersService::class.java)
+    val charactersService: CharactersService = restAdapter.create()
+    val comicService: ComicService = restAdapter.create()
+    val eventsService: EventsService = restAdapter.create()
 }
 
 private class QueryInterceptor : Interceptor {

@@ -2,7 +2,7 @@ package com.jujodevs.marvelcompose.data.network.entities
 
 import com.google.gson.annotations.SerializedName
 
-data class ApiEvents(
+data class ApiEventsList(
     @SerializedName("available")
     val available: Int,
     @SerializedName("collectionURI")

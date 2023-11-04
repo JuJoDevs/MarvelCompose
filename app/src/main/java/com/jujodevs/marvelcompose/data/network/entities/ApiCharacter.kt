@@ -16,13 +16,13 @@ data class ApiCharacter(
     @SerializedName("resourceURI")
     val resourceURI: String,
     @SerializedName("comics")
-    val comics: ApiComics,
+    val comics: ApiReferenceList,
     @SerializedName("series")
-    val series: ApiSeries,
+    val series: ApiReferenceList,
     @SerializedName("stories")
-    val stories: ApiStories,
+    val stories: ApiReferenceList,
     @SerializedName("events")
-    val events: ApiEvents,
+    val events: ApiReferenceList,
     @SerializedName("urls")
     val urls: List<ApiUrl>
 )

@@ -1,4 +1,4 @@
-package com.jujodevs.marvelcompose.ui.screens.characterdetail
+package com.jujodevs.marvelcompose.ui.navigation
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton

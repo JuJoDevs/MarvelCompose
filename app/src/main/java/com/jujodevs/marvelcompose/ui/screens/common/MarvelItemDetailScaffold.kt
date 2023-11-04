@@ -1,4 +1,4 @@
-package com.jujodevs.marvelcompose.ui.screens.characterdetail
+package com.jujodevs.marvelcompose.ui.screens.common
 
 import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,13 +18,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.app.ShareCompat
 import com.jujodevs.marvelcompose.R
-import com.jujodevs.marvelcompose.data.entities.Character
+import com.jujodevs.marvelcompose.data.entities.MarvelItem
+import com.jujodevs.marvelcompose.ui.navigation.AppBarIcon
+import com.jujodevs.marvelcompose.ui.navigation.ArrowBackIcon
 import com.jujodevs.marvelcompose.ui.shares.CustomTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CharacterDetailScaffold(
-    character: Character,
+fun MarvelItemDetailScaffold(
+    item: MarvelItem,
     modifier: Modifier = Modifier,
     onUpClick: () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
@@ -34,12 +36,12 @@ fun CharacterDetailScaffold(
     Scaffold(
         topBar = {
             CustomTopAppBar(
-                title = { Text(text = character.name) },
+                title = { Text(text = item.title) },
                 navigationIcon = {
                     ArrowBackIcon(onUpClick)
                 },
                 actions = {
-                    AppBarOverflowMenu(character.urls)
+                    AppBarOverflowMenu(item.urls)
                 }
             )
         },
@@ -57,8 +59,8 @@ fun CharacterDetailScaffold(
                     )
                 },
                 floatingActionButton = {
-                    if (character.urls.isNotEmpty()) {
-                        FloatingActionButton(onClick = { shareCharacter(context, character) }) {
+                    if (item.urls.isNotEmpty()) {
+                        FloatingActionButton(onClick = { shareCharacter(context, item) }) {
                             Icon(
                                 imageVector = Icons.Default.Share,
                                 contentDescription = stringResource(R.string.share_character)
@@ -72,12 +74,12 @@ fun CharacterDetailScaffold(
     )
 }
 
-fun shareCharacter(context: Context, character: Character) {
+fun shareCharacter(context: Context, item: MarvelItem) {
     ShareCompat
         .IntentBuilder(context)
         .setType("text/plain")
-        .setSubject(character.name)
-        .setText(character.urls.first().url)
+        .setSubject(item.title)
+        .setText(item.urls.first().url)
         .intent
         .also(context::startActivity)
 }

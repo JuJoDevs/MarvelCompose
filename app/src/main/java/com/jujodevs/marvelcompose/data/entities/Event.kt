@@ -1,6 +1,6 @@
 package com.jujodevs.marvelcompose.data.entities
 
-data class Character(
+data class Event(
     override val id: Int,
     override val title: String,
     override val description: String,
