@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.jujodevs.marvelcompose.ui.screens.CharacterDetailScreen
 import com.jujodevs.marvelcompose.ui.screens.CharactersScreen
@@ -18,9 +18,7 @@ import com.jujodevs.marvelcompose.ui.screens.EventsScreen
 import com.jujodevs.marvelcompose.ui.shares.BackgroundScaffold
 
 @Composable
-fun Navigation() {
-    val navController = rememberNavController()
-
+fun Navigation(navController: NavHostController) {
     BackgroundScaffold()
 
     NavHost(
@@ -37,20 +35,20 @@ private fun NavGraphBuilder.charactersNav(
     navController: NavController,
 ) {
     navigation(
-        startDestination = NavItem.ContentType(Feature.CHARACTERS).route,
+        startDestination = NavCommand.ContentType(Feature.CHARACTERS).route,
         route = Feature.CHARACTERS.route
     ) {
-        composable(NavItem.ContentType(Feature.CHARACTERS)) {
+        composable(NavCommand.ContentType(Feature.CHARACTERS)) {
             CharactersScreen(
                 onClick = { character ->
                     navController.navigate(
-                        NavItem.ContentDetailt(Feature.CHARACTERS).createRoute(character.id)
+                        NavCommand.ContentDetailt(Feature.CHARACTERS).createRoute(character.id)
                     )
                 }
             )
         }
 
-        composable(NavItem.ContentDetailt(Feature.CHARACTERS)) {
+        composable(NavCommand.ContentDetailt(Feature.CHARACTERS)) {
             CharacterDetailScreen(
                 characterId = it.findArg(NavArg.ItemId),
                 onUpClick = { navController.popBackStack() }
@@ -61,18 +59,18 @@ private fun NavGraphBuilder.charactersNav(
 
 private fun NavGraphBuilder.comicsNav(navController: NavController) {
     navigation(
-        startDestination = NavItem.ContentType(Feature.COMICS).route,
+        startDestination = NavCommand.ContentType(Feature.COMICS).route,
         route = Feature.COMICS.route
     ) {
-        composable(NavItem.ContentType(Feature.COMICS)) {
+        composable(NavCommand.ContentType(Feature.COMICS)) {
             ComicsScreen(onClick = { comic ->
                 navController.navigate(
-                    NavItem.ContentDetailt(Feature.COMICS).createRoute(comic.id)
+                    NavCommand.ContentDetailt(Feature.COMICS).createRoute(comic.id)
                 )
             })
         }
 
-        composable(NavItem.ContentDetailt(Feature.COMICS)) {
+        composable(NavCommand.ContentDetailt(Feature.COMICS)) {
             ComicDetailScreen(
                 comicId = it.findArg(NavArg.ItemId),
                 onUpClick = { navController.popBackStack() }
@@ -83,18 +81,18 @@ private fun NavGraphBuilder.comicsNav(navController: NavController) {
 
 private fun NavGraphBuilder.eventsNav(navController: NavController) {
     navigation(
-        startDestination = NavItem.ContentType(Feature.EVENTS).route,
+        startDestination = NavCommand.ContentType(Feature.EVENTS).route,
         route = Feature.EVENTS.route
     ) {
-        composable(NavItem.ContentType(Feature.EVENTS)) {
+        composable(NavCommand.ContentType(Feature.EVENTS)) {
             EventsScreen(onClick = { event ->
                 navController.navigate(
-                    NavItem.ContentDetailt(Feature.EVENTS).createRoute(event.id)
+                    NavCommand.ContentDetailt(Feature.EVENTS).createRoute(event.id)
                 )
             })
         }
 
-        composable(NavItem.ContentDetailt(Feature.EVENTS)) {
+        composable(NavCommand.ContentDetailt(Feature.EVENTS)) {
             EventDetailScreen(
                 eventId = it.findArg(NavArg.ItemId),
                 onUpClick = { navController.popBackStack() }
@@ -104,7 +102,7 @@ private fun NavGraphBuilder.eventsNav(navController: NavController) {
 }
 
 private fun NavGraphBuilder.composable(
-    navItem: NavItem,
+    navItem: NavCommand,
     content: @Composable (NavBackStackEntry) -> Unit,
 ) {
     composable(
