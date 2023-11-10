@@ -32,22 +32,36 @@ fun <T : MarvelItem> MarvelItemsListScreen(
             CustomTopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) })
         },
         content = { paddingValues ->
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(180.dp),
-                contentPadding = PaddingValues(4.dp),
-                modifier = modifier.padding(paddingValues)
-            ) {
-                items(marvelItems) {
-                    MarvelListItem(
-                        item = it,
-                        modifier = modifier.clickable {
-                            onClick(it)
-                        }
-                    )
-                }
-            }
-        }
+            MarvelItemsList(
+                marvelItems = marvelItems,
+                onClick = onClick,
+                modifier = Modifier.padding(paddingValues)
+            )
+        },
+        modifier = modifier
     )
+}
+
+@Composable
+fun <T : MarvelItem> MarvelItemsList(
+    marvelItems: List<T>,
+    onClick: (T) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(180.dp),
+        contentPadding = PaddingValues(4.dp),
+        modifier = modifier
+    ) {
+        items(marvelItems) {
+            MarvelListItem(
+                item = it,
+                modifier = Modifier.clickable {
+                    onClick(it)
+                }
+            )
+        }
+    }
 }
 
 @Preview
