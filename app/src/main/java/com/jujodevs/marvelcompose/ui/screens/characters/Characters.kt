@@ -1,6 +1,8 @@
 package com.jujodevs.marvelcompose.ui.screens.characters
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jujodevs.marvelcompose.R
@@ -22,13 +24,15 @@ fun CharactersScreen(
     onClick: (Character) -> Unit = {},
     viewModel: CharacterViewModel = viewModel(),
 ) {
+    val state by viewModel.state.collectAsState()
+
     topBar {
         TopAppBarContentType(title = R.string.app_name, onClick = { onMenuClick() })
     }
     MarvelItemsListScreen(
         modifier = modifier,
-        loading = viewModel.state.loading,
-        marvelItems = viewModel.state.characters,
+        loading = state.loading,
+        marvelItems = state.characters,
         onClick = onClick
     )
     bottomBar {
@@ -48,9 +52,11 @@ fun CharacterDetailScreen(
     onUpClick: () -> Unit = {},
 
 ) {
+    val state by viewmodel.state.collectAsState()
+
     MarvelItemDetailScreen(
-        loading = viewmodel.state.loading,
-        marvelItem = viewmodel.state.character,
+        loading = state.loading,
+        marvelItem = state.character,
         topBar = topBar,
         bottomBar = bottomBar,
         onUpClick = onUpClick,

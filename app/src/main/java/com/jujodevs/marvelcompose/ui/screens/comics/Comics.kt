@@ -11,6 +11,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -39,6 +40,7 @@ fun ComicsScreen(
     onClick: (Comic) -> Unit = {},
     viewModel: ComicViewModel = viewModel(),
 ) {
+    val state by viewModel.state.collectAsState()
     val formats = Comic.Format.values().toList()
     val pagerState = rememberPagerState { formats.size }
 
@@ -52,7 +54,7 @@ fun ComicsScreen(
         ) { page ->
             val format = formats[page]
             viewModel.formatRequested(format)
-            val pageState by viewModel.state.getValue(format)
+            val pageState by state.getValue(format)
             MarvelItemsListScreen(
                 loading = pageState.loading,
                 marvelItems = pageState.comics,
@@ -115,9 +117,10 @@ fun ComicDetailScreen(
     onUpClick: () -> Unit = {},
     viewmodel: ComicDetailViewModel = viewModel(),
 ) {
+    val state by viewmodel.state.collectAsState()
     MarvelItemDetailScreen(
-        loading = viewmodel.state.loading,
-        marvelItem = viewmodel.state.comic,
+        loading = state.loading,
+        marvelItem = state.comic,
         topBar = topBar,
         bottomBar = bottomBar,
         onUpClick = onUpClick,

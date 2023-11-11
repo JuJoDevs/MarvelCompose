@@ -1,14 +1,13 @@
 package com.jujodevs.marvelcompose.ui.screens.characters
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jujodevs.marvelcompose.data.entities.Character
 import com.jujodevs.marvelcompose.data.repositories.CharactersRepository
 import com.jujodevs.marvelcompose.ui.navigation.NavArg
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class CharacterDetailViewmodel(
@@ -17,13 +16,13 @@ class CharacterDetailViewmodel(
 
     private val id = savedStateHandle.get<Int>(NavArg.ItemId.key) ?: 0
 
-    var state by mutableStateOf(UiState())
-        private set
+    private val _state = MutableStateFlow(UiState())
+    val state = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            state = UiState(loading = true)
-            state = UiState(character = CharactersRepository.find(id))
+            _state.value = UiState(loading = true)
+            _state.value = UiState(character = CharactersRepository.find(id))
         }
     }
 

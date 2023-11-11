@@ -5,11 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jujodevs.marvelcompose.data.entities.Comic
 import com.jujodevs.marvelcompose.data.repositories.ComicsRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ComicViewModel : ViewModel() {
 
-    val state = Comic.Format.values().associateWith { mutableStateOf(UiState()) }
+    private val _state = MutableStateFlow(Comic.Format.values().associateWith { mutableStateOf(UiState()) })
+    val state = _state.asStateFlow()
 
     data class UiState(
         val loading: Boolean = false,
@@ -17,7 +20,7 @@ class ComicViewModel : ViewModel() {
     )
 
     fun formatRequested(format: Comic.Format) {
-        val uiState = state.getValue(format)
+        val uiState = _state.value.getValue(format)
         if (uiState.value.comics.isNotEmpty()) return
 
         viewModelScope.launch {

@@ -1,14 +1,13 @@
 package com.jujodevs.marvelcompose.ui.screens.events
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jujodevs.marvelcompose.data.entities.Event
 import com.jujodevs.marvelcompose.data.repositories.EventRepository
 import com.jujodevs.marvelcompose.ui.navigation.NavArg
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class EventDetailViewModel(
@@ -17,13 +16,13 @@ class EventDetailViewModel(
 
     private val id = savedStateHandle.get<Int>(NavArg.ItemId.key) ?: 0
 
-    var state by mutableStateOf(UiState())
-        private set
+    private val _state = MutableStateFlow(UiState())
+    val state = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            state = UiState(loading = true)
-            state = UiState(event = EventRepository.find(id))
+            _state.value = UiState(loading = true)
+            _state.value = UiState(event = EventRepository.find(id))
         }
     }
 

@@ -2,6 +2,8 @@ package com.jujodevs.marvelcompose.ui.screens.events
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jujodevs.marvelcompose.R
@@ -24,12 +26,14 @@ fun EventsScreen(
     onClick: (Event) -> Unit = {},
     viewModel: EventsViewModel = viewModel(),
 ) {
+    val state by viewModel.state.collectAsState()
+
     topBar {
         TopAppBarContentType(title = R.string.app_name, onClick = { onMenuClick() })
     }
     MarvelItemsListScreen(
-        loading = viewModel.state.loading,
-        marvelItems = viewModel.state.events,
+        loading = state.loading,
+        marvelItems = state.events,
         onClick = onClick,
         modifier = modifier
     )
@@ -49,9 +53,11 @@ fun EventDetailScreen(
     onUpClick: () -> Unit = {},
     viewModel: EventDetailViewModel = viewModel(),
 ) {
+    val state by viewModel.state.collectAsState()
+
     MarvelItemDetailScreen(
-        loading = viewModel.state.loading,
-        marvelItem = viewModel.state.event,
+        loading = state.loading,
+        marvelItem = state.event,
         topBar = topBar,
         bottomBar = bottomBar,
         onUpClick = onUpClick,
