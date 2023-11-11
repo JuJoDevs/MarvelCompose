@@ -1,4 +1,4 @@
-package com.jujodevs.marvelcompose.ui.screens
+package com.jujodevs.marvelcompose.ui.screens.comics
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -6,33 +6,28 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jujodevs.marvelcompose.R
 import com.jujodevs.marvelcompose.data.entities.Comic
-import com.jujodevs.marvelcompose.data.repositories.ComicsRepository
 import com.jujodevs.marvelcompose.ui.navigation.AppBottomNavigation
 import com.jujodevs.marvelcompose.ui.navigation.NavItem
 import com.jujodevs.marvelcompose.ui.screens.common.MarvelItemDetailScreen
-import com.jujodevs.marvelcompose.ui.screens.common.MarvelItemsList
+import com.jujodevs.marvelcompose.ui.screens.common.MarvelItemsListScreen
 import com.jujodevs.marvelcompose.ui.screens.common.TopAppBarContentType
 import com.jujodevs.marvelcompose.ui.screens.common.pagerTabIndicatorOffset
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ComicsScreen(
     modifier: Modifier = Modifier,
@@ -42,12 +37,8 @@ fun ComicsScreen(
     currentRoute: String = "",
     onNavItemClick: (Boolean, NavItem) -> Unit = { _, _ -> },
     onClick: (Comic) -> Unit = {},
+    viewModel: ComicViewModel = viewModel(),
 ) {
-    var comicState by remember { mutableStateOf(emptyList<Comic>()) }
-    LaunchedEffect(key1 = Unit) {
-        comicState = ComicsRepository.get()
-    }
-
     val formats = Comic.Format.values().toList()
     val pagerState = rememberPagerState { formats.size }
 
@@ -59,8 +50,12 @@ fun ComicsScreen(
         HorizontalPager(
             state = pagerState
         ) { page ->
-            MarvelItemsList(
-                marvelItems = comicState,
+            val format = formats[page]
+            viewModel.formatRequested(format)
+            val pageState by viewModel.state.getValue(format)
+            MarvelItemsListScreen(
+                loading = pageState.loading,
+                marvelItems = pageState.comics,
                 onClick = onClick,
                 modifier = Modifier
             )
@@ -114,21 +109,18 @@ private fun Comic.Format.toStringRes(): Int = when (this) {
 
 @Composable
 fun ComicDetailScreen(
-    comicId: Int,
+    modifier: Modifier = Modifier,
     topBar: (@Composable () -> Unit) -> Unit = {},
     bottomBar: (@Composable () -> Unit) -> Unit = {},
-    onUpClick: () -> Unit,
+    onUpClick: () -> Unit = {},
+    viewmodel: ComicDetailViewModel = viewModel(),
 ) {
-    var comicState by remember { mutableStateOf<Comic?>(null) }
-    LaunchedEffect(key1 = Unit) {
-        comicState = ComicsRepository.find(comicId)
-    }
-    comicState?.let {
-        MarvelItemDetailScreen(
-            marvelItem = it,
-            topBar = topBar,
-            bottomBar = bottomBar,
-            onUpClick = onUpClick
-        )
-    }
+    MarvelItemDetailScreen(
+        loading = viewmodel.state.loading,
+        marvelItem = viewmodel.state.comic,
+        topBar = topBar,
+        bottomBar = bottomBar,
+        onUpClick = onUpClick,
+        modifier = modifier
+    )
 }

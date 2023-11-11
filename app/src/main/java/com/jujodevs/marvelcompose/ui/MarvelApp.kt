@@ -45,7 +45,7 @@ fun MarvelApp(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun MarvelAppTheme(
+fun MarvelScreen(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {

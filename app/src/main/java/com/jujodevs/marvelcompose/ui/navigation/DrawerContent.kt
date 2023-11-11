@@ -26,33 +26,35 @@ fun DrawerContent(
 ) {
     val drawerOptions = listOf(NavItem.HOME, NavItem.SETTINGS)
 
-    Box(
-        modifier = modifier
-            .background(
-                Brush.linearGradient(
-                    listOf(
-                        MaterialTheme.colorScheme.surfaceVariant,
-                        MaterialTheme.colorScheme.inversePrimary
+    Box(modifier = modifier) {
+        Box(
+            modifier = Modifier
+                .background(
+                    Brush.linearGradient(
+                        listOf(
+                            MaterialTheme.colorScheme.surfaceVariant,
+                            MaterialTheme.colorScheme.inversePrimary
+                        )
                     )
                 )
-            )
-            .height(200.dp)
-            .fillMaxWidth()
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-    drawerOptions.forEach { navItem ->
-        Row(
-            modifier = Modifier
-                .clickable { onOptionClick(navItem) }
+                .height(200.dp)
                 .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Icon(imageVector = navItem.icon, contentDescription = navItem.name)
-            Spacer(modifier = Modifier.width(24.dp))
-            Text(
-                text = stringResource(id = navItem.title),
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
-            )
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        drawerOptions.forEach { navItem ->
+            Row(
+                modifier = Modifier
+                    .clickable { onOptionClick(navItem) }
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Icon(imageVector = navItem.icon, contentDescription = navItem.name)
+                Spacer(modifier = Modifier.width(24.dp))
+                Text(
+                    text = stringResource(id = navItem.title),
+                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                )
+            }
         }
     }
 }

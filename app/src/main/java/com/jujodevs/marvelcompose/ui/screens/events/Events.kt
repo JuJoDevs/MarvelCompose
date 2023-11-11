@@ -1,16 +1,11 @@
-package com.jujodevs.marvelcompose.ui.screens
+package com.jujodevs.marvelcompose.ui.screens.events
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jujodevs.marvelcompose.R
-import com.jujodevs.marvelcompose.data.entities.Character
-import com.jujodevs.marvelcompose.data.repositories.CharactersRepository
+import com.jujodevs.marvelcompose.data.entities.Event
 import com.jujodevs.marvelcompose.ui.navigation.AppBottomNavigation
 import com.jujodevs.marvelcompose.ui.navigation.NavItem
 import com.jujodevs.marvelcompose.ui.screens.common.MarvelItemDetailScreen
@@ -19,26 +14,24 @@ import com.jujodevs.marvelcompose.ui.screens.common.TopAppBarContentType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CharactersScreen(
+fun EventsScreen(
     modifier: Modifier = Modifier,
     topBar: (@Composable () -> Unit) -> Unit = {},
     bottomBar: (@Composable () -> Unit) -> Unit = {},
     onMenuClick: () -> Unit = {},
     currentRoute: String = "",
     onNavItemClick: (Boolean, NavItem) -> Unit = { _, _ -> },
-    onClick: (Character) -> Unit = {},
+    onClick: (Event) -> Unit = {},
+    viewModel: EventsViewModel = viewModel(),
 ) {
-    var charactersState by remember { mutableStateOf(emptyList<Character>()) }
-    LaunchedEffect(Unit) {
-        charactersState = CharactersRepository.get()
-    }
     topBar {
         TopAppBarContentType(title = R.string.app_name, onClick = { onMenuClick() })
     }
     MarvelItemsListScreen(
-        modifier = modifier,
-        marvelItems = charactersState,
-        onClick = onClick
+        loading = viewModel.state.loading,
+        marvelItems = viewModel.state.events,
+        onClick = onClick,
+        modifier = modifier
     )
     bottomBar {
         AppBottomNavigation(
@@ -49,23 +42,19 @@ fun CharactersScreen(
 }
 
 @Composable
-fun CharacterDetailScreen(
-    characterId: Int,
+fun EventDetailScreen(
+    modifier: Modifier = Modifier,
     topBar: (@Composable () -> Unit) -> Unit = {},
     bottomBar: (@Composable () -> Unit) -> Unit = {},
     onUpClick: () -> Unit = {},
+    viewModel: EventDetailViewModel = viewModel(),
 ) {
-    var characterState by remember { mutableStateOf<Character?>(null) }
-    LaunchedEffect(Unit) {
-        characterState = CharactersRepository.find(characterId)
-    }
-
-    characterState?.let {
-        MarvelItemDetailScreen(
-            marvelItem = it,
-            topBar = topBar,
-            bottomBar = bottomBar,
-            onUpClick = onUpClick
-        )
-    }
+    MarvelItemDetailScreen(
+        loading = viewModel.state.loading,
+        marvelItem = viewModel.state.event,
+        topBar = topBar,
+        bottomBar = bottomBar,
+        onUpClick = onUpClick,
+        modifier = modifier
+    )
 }

@@ -21,7 +21,7 @@ fun rememberMarvelAppState(
 }
 
 class MarvelAppState(
-    val topBar: MutableState<@Composable () -> Unit>,
+    var topBar: MutableState<@Composable () -> Unit>,
     val bottomBar: MutableState<@Composable () -> Unit>,
     val drawerState: DrawerState,
     val coroutineScope: CoroutineScope,

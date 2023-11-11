@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -52,8 +53,9 @@ import com.jujodevs.marvelcompose.ui.theme.MarvelComposeTheme
 
 @Composable
 fun MarvelItemDetailScreen(
-    marvelItem: MarvelItem,
+    marvelItem: MarvelItem?,
     modifier: Modifier = Modifier,
+    loading: Boolean = false,
     topBar: (@Composable () -> Unit) -> Unit = {},
     bottomBar: (@Composable () -> Unit) -> Unit = {},
     onUpClick: () -> Unit = {},
@@ -62,16 +64,22 @@ fun MarvelItemDetailScreen(
 
     topBar { (DetailTopbar(marvelItem, onUpClick)) }
 
-    LazyColumn(
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        item {
-            Header(marvelItem)
-        }
-        marvelItem.references.forEach {
-            val (icon, @StringRes stringRes) = it.type.createUiData()
-            section(icon, stringRes, it.references)
+    if (loading) {
+        CircularProgressIndicator()
+    }
+
+    if (marvelItem != null) {
+        LazyColumn(
+            modifier = modifier
+                .fillMaxWidth()
+        ) {
+            item {
+                Header(marvelItem)
+            }
+            marvelItem.references.forEach {
+                val (icon, @StringRes stringRes) = it.type.createUiData()
+                section(icon, stringRes, it.references)
+            }
         }
     }
 
@@ -81,16 +89,16 @@ fun MarvelItemDetailScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DetailTopbar(
-    marvelItem: MarvelItem,
+    marvelItem: MarvelItem?,
     onUpClick: () -> Unit,
 ) {
     CustomTopAppBar(
-        title = { Text(text = marvelItem.title) },
+        title = { Text(text = marvelItem?.title ?: "") },
         navigationIcon = {
             ArrowBackIcon(onBack = onUpClick)
         },
         actions = {
-            AppBarOverflowMenu(marvelItem.urls)
+            AppBarOverflowMenu(marvelItem?.urls ?: emptyList())
         }
     )
 }
@@ -160,7 +168,7 @@ private fun ReferenceList.Type.createUiData(): Pair<ImageVector, Int> = when (th
 
 @Composable
 private fun DetailBottomBar(
-    marvelItem: MarvelItem,
+    marvelItem: MarvelItem?,
     context: Context,
 ) {
     BottomAppBar(
@@ -175,7 +183,7 @@ private fun DetailBottomBar(
             )
         },
         floatingActionButton = {
-            if (marvelItem.urls.isNotEmpty()) {
+            if (marvelItem?.urls?.isNotEmpty() == true) {
                 FloatingActionButton(onClick = { shareCharacter(context, marvelItem) }) {
                     Icon(
                         imageVector = Icons.Default.Share,
@@ -187,12 +195,12 @@ private fun DetailBottomBar(
     )
 }
 
-fun shareCharacter(context: Context, item: MarvelItem) {
+fun shareCharacter(context: Context, item: MarvelItem?) {
     ShareCompat
         .IntentBuilder(context)
         .setType("text/plain")
-        .setSubject(item.title)
-        .setText(item.urls.first().url)
+        .setSubject(item?.title)
+        .setText(item?.urls?.first()?.url)
         .intent
         .also(context::startActivity)
 }
@@ -201,6 +209,16 @@ fun shareCharacter(context: Context, item: MarvelItem) {
 @Composable
 private fun CharacterDetailScreenPreview() {
     MarvelComposeTheme {
-        MarvelItemDetailScreen(Character(1, "preview", "description preview", "", emptyList(), emptyList()))
+        MarvelItemDetailScreen(
+            loading = false,
+            marvelItem = Character(
+                1,
+                "preview",
+                "description preview",
+                "",
+                emptyList(),
+                emptyList()
+            )
+        )
     }
 }
