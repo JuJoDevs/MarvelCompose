@@ -7,16 +7,19 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 
 @Composable
 fun AppBottomNavigation(
-    currentRoute: String,
+    modifier: Modifier = Modifier,
+    currentRoute: String = "",
     onNavItemClick: (Boolean, NavItem) -> Unit,
 ) {
     NavigationBar(
         contentColor = MaterialTheme.colorScheme.onPrimary,
-        containerColor = MaterialTheme.colorScheme.primary
+        containerColor = MaterialTheme.colorScheme.primary,
+        modifier = modifier
     ) {
         NavItem.values().forEach { item ->
             val title = stringResource(id = item.title)
