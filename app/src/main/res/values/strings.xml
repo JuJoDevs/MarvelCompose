@@ -6,4 +6,16 @@
     <string name="comics">Comics</string>
     <string name="stories">Stories</string>
     <string name="characters">Characters</string>
+    <string name="comic">Comic</string>
+    <string name="magazine">Magazine</string>
+    <string name="trade_paperback">Trade Paperback</string>
+    <string name="hardcover">Hardcover</string>
+    <string name="digest">Digest</string>
+    <string name="graphic_novel">Graphic Novel</string>
+    <string name="digital_comic">Digital Comic</string>
+    <string name="infinite_comic">Infinite Comic</string>
+    <string name="settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="more_options">More options</string>
+    <string name="go_to_detail">Go to Detail</string>
 </resources>

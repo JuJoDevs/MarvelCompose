@@ -1,16 +1,11 @@
 package com.jujodevs.marvelcompose.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.jujodevs.marvelcompose.ui.screens.CharacterDetailScreen
 import com.jujodevs.marvelcompose.ui.screens.CharactersScreen
@@ -23,23 +18,25 @@ import com.jujodevs.marvelcompose.ui.screens.EventsScreen
 fun Navigation(
     topBar: (@Composable () -> Unit) -> Unit,
     bottomBar: (@Composable () -> Unit) -> Unit,
+    onMenuClick: () -> Unit,
 ) {
-    val navController = rememberNavController()
+    val navigationState = rememberNavigationState()
 
     NavHost(
-        navController = navController,
+        navController = navigationState.navController,
         startDestination = Feature.CHARACTERS.route
     ) {
-        charactersNav(navController, topBar, bottomBar)
-        comicsNav(navController, topBar, bottomBar)
-        eventsNav(navController, topBar, bottomBar)
+        charactersNav(navigationState, topBar, bottomBar, onMenuClick)
+        comicsNav(navigationState, topBar, bottomBar, onMenuClick)
+        eventsNav(navigationState, topBar, bottomBar, onMenuClick)
     }
 }
 
 private fun NavGraphBuilder.charactersNav(
-    navController: NavHostController,
-    topBar: (@Composable () -> Unit) -> Unit,
-    bottomBar: (@Composable () -> Unit) -> Unit,
+    navigationState: NavigationState,
+    topBar: (@Composable () -> Unit) -> Unit = {},
+    bottomBar: (@Composable () -> Unit) -> Unit = {},
+    onMenuClick: () -> Unit = {},
 ) {
     navigation(
         startDestination = NavCommand.ContentType(Feature.CHARACTERS).route,
@@ -49,36 +46,38 @@ private fun NavGraphBuilder.charactersNav(
             CharactersScreen(
                 topBar = topBar,
                 bottomBar = bottomBar,
-                currentRoute = navController.getCurrentRoute(),
+                onMenuClick = onMenuClick,
+                currentRoute = navigationState.currentRoute,
                 onNavItemClick = { isCurrentRoute, item ->
-                    navController.navigatePoppingUpToStartDestination(
+                    navigationState.navigatePoppingUpToStartDestination(
                         isCurrentRoute = isCurrentRoute,
                         route = item.navCommand.route
                     )
                 },
                 onClick = { character ->
-                    navController.navigate(
-                        NavCommand.ContentDetailt(Feature.CHARACTERS).createRoute(character.id)
+                    navigationState.navigate(
+                        NavCommand.ContentDetail(Feature.CHARACTERS).createRoute(character.id)
                     )
                 }
             )
         }
 
-        composable(NavCommand.ContentDetailt(Feature.CHARACTERS)) {
+        composable(NavCommand.ContentDetail(Feature.CHARACTERS)) {
             CharacterDetailScreen(
                 characterId = it.findArg(NavArg.ItemId),
                 topBar = topBar,
                 bottomBar = bottomBar,
-                onUpClick = { navController.popBackStack() }
+                onUpClick = { navigationState.popBackStack() }
             )
         }
     }
 }
 
 private fun NavGraphBuilder.comicsNav(
-    navController: NavHostController,
+    navigationState: NavigationState,
     topBar: (@Composable () -> Unit) -> Unit,
     bottomBar: (@Composable () -> Unit) -> Unit,
+    onMenuClick: () -> Unit = {},
 ) {
     navigation(
         startDestination = NavCommand.ContentType(Feature.COMICS).route,
@@ -88,36 +87,38 @@ private fun NavGraphBuilder.comicsNav(
             ComicsScreen(
                 topBar = topBar,
                 bottomBar = bottomBar,
-                currentRoute = navController.getCurrentRoute(),
+                onMenuClick = onMenuClick,
+                currentRoute = navigationState.currentRoute,
                 onNavItemClick = { isCurrentRoute, item ->
-                    navController.navigatePoppingUpToStartDestination(
+                    navigationState.navigatePoppingUpToStartDestination(
                         isCurrentRoute = isCurrentRoute,
                         route = item.navCommand.route
                     )
                 },
                 onClick = { comic ->
-                    navController.navigate(
-                        NavCommand.ContentDetailt(Feature.COMICS).createRoute(comic.id)
+                    navigationState.navigate(
+                        NavCommand.ContentDetail(Feature.COMICS).createRoute(comic.id)
                     )
                 }
             )
         }
 
-        composable(NavCommand.ContentDetailt(Feature.COMICS)) {
+        composable(NavCommand.ContentDetail(Feature.COMICS)) {
             ComicDetailScreen(
                 comicId = it.findArg(NavArg.ItemId),
                 topBar = topBar,
                 bottomBar = bottomBar,
-                onUpClick = { navController.popBackStack() }
+                onUpClick = { navigationState.popBackStack() }
             )
         }
     }
 }
 
 private fun NavGraphBuilder.eventsNav(
-    navController: NavHostController,
+    navigationState: NavigationState,
     topBar: (@Composable () -> Unit) -> Unit,
     bottomBar: (@Composable () -> Unit) -> Unit,
+    onMenuClick: () -> Unit = {},
 ) {
     navigation(
         startDestination = NavCommand.ContentType(Feature.EVENTS).route,
@@ -127,27 +128,28 @@ private fun NavGraphBuilder.eventsNav(
             EventsScreen(
                 topBar = topBar,
                 bottomBar = bottomBar,
-                currentRoute = navController.getCurrentRoute(),
+                currentRoute = navigationState.currentRoute,
+                onMenuClick = onMenuClick,
                 onNavItemClick = { isCurrentRoute, item ->
-                    navController.navigatePoppingUpToStartDestination(
+                    navigationState.navigatePoppingUpToStartDestination(
                         isCurrentRoute = isCurrentRoute,
                         route = item.navCommand.route
                     )
                 },
                 onClick = { event ->
-                    navController.navigate(
-                        NavCommand.ContentDetailt(Feature.EVENTS).createRoute(event.id)
+                    navigationState.navigate(
+                        NavCommand.ContentDetail(Feature.EVENTS).createRoute(event.id)
                     )
                 }
             )
         }
 
-        composable(NavCommand.ContentDetailt(Feature.EVENTS)) {
+        composable(NavCommand.ContentDetail(Feature.EVENTS)) {
             EventDetailScreen(
                 eventId = it.findArg(NavArg.ItemId),
                 topBar = topBar,
                 bottomBar = bottomBar,
-                onUpClick = { navController.popBackStack() }
+                onUpClick = { navigationState.popBackStack() }
             )
         }
     }
@@ -172,10 +174,4 @@ private inline fun <reified T> NavBackStackEntry.findArg(arg: NavArg): T {
     }
     requireNotNull(value)
     return value as T
-}
-
-@Composable
-private fun NavController.getCurrentRoute(): String {
-    val navBackStackEntry by currentBackStackEntryAsState()
-    return navBackStackEntry?.destination?.route ?: ""
 }

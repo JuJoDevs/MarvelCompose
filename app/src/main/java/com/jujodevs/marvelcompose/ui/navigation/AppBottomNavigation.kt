@@ -16,12 +16,13 @@ fun AppBottomNavigation(
     currentRoute: String = "",
     onNavItemClick: (Boolean, NavItem) -> Unit,
 ) {
+    val navigatonOptions = listOf(NavItem.CHARACTERS, NavItem.COMICS, NavItem.EVENTS)
     NavigationBar(
         contentColor = MaterialTheme.colorScheme.onPrimary,
         containerColor = MaterialTheme.colorScheme.primary,
         modifier = modifier
     ) {
-        NavItem.values().forEach { item ->
+        navigatonOptions.forEach { item ->
             val title = stringResource(id = item.title)
             val isCurrentRoute = currentRoute.contains(item.navCommand.feature.route)
             NavigationBarItem(
