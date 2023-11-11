@@ -11,6 +11,7 @@ import com.jujodevs.marvelcompose.ui.shares.rememberComposable
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
+@Suppress("MutableParams")
 fun rememberMarvelAppState(
     topBar: MutableState<@Composable () -> Unit> = rememberComposable(),
     bottomBar: MutableState<@Composable () -> Unit> = rememberComposable(),
