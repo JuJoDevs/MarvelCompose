@@ -1,6 +1,8 @@
 package com.jujodevs.marvelcompose.data.repositories
 
 import com.jujodevs.marvelcompose.data.entities.MarvelItem
+import com.jujodevs.marvelcompose.data.network.entities.Result
+import com.jujodevs.marvelcompose.data.network.entities.tryCall
 
 abstract class Repository<T : MarvelItem> {
 
@@ -8,20 +10,16 @@ abstract class Repository<T : MarvelItem> {
     internal val offset = 0
     internal val limit = 100
 
-    internal suspend fun get(getAction: suspend () -> List<T>): List<T> {
-        if (cache.isEmpty()) {
-            cache = getAction()
+    internal suspend fun get(getAction: suspend () -> List<T>): Result<List<T>> =
+        tryCall {
+            if (cache.isEmpty()) {
+                cache = getAction()
+            }
+            cache
         }
-        return cache
-    }
 
     internal suspend fun find(
         id: Int,
-        findActionRemote: suspend () -> T
-    ): T {
-        val item = cache.find { it.id == id }
-        if (item != null) return item
-
-        return findActionRemote()
-    }
+        findActionRemote: suspend () -> T,
+    ): Result<T> = tryCall { cache.find { it.id == id } ?: findActionRemote() }
 }

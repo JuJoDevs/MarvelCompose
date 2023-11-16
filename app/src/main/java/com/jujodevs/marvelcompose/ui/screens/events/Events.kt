@@ -33,7 +33,7 @@ fun EventsScreen(
     }
     MarvelItemsListScreen(
         loading = state.loading,
-        marvelItems = state.events,
+        items = state.events,
         onClick = onClick,
         modifier = modifier
     )

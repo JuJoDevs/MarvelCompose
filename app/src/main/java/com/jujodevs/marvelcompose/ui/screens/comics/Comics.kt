@@ -57,7 +57,7 @@ fun ComicsScreen(
             val pageState by state.getValue(format)
             MarvelItemsListScreen(
                 loading = pageState.loading,
-                marvelItems = pageState.comics,
+                items = pageState.comics,
                 onClick = onClick,
                 modifier = Modifier
             )

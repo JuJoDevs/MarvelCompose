@@ -2,7 +2,9 @@ package com.jujodevs.marvelcompose.ui.screens.events
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.core.Either
 import com.jujodevs.marvelcompose.data.entities.Event
+import com.jujodevs.marvelcompose.data.network.entities.Result
 import com.jujodevs.marvelcompose.data.repositories.EventRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,6 +24,6 @@ class EventsViewModel : ViewModel() {
 
     data class UiState(
         val loading: Boolean = false,
-        val events: List<Event> = emptyList()
+        val events: Result<List<Event>> = Either.Right(emptyList())
     )
 }

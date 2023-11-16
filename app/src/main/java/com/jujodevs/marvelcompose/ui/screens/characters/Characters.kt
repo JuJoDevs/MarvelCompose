@@ -32,7 +32,7 @@ fun CharactersScreen(
     MarvelItemsListScreen(
         modifier = modifier,
         loading = state.loading,
-        marvelItems = state.characters,
+        items = state.characters,
         onClick = onClick
     )
     bottomBar {

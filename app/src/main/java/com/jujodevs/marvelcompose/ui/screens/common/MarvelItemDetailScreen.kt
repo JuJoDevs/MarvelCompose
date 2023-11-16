@@ -40,12 +40,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ShareCompat
+import arrow.core.right
 import coil.compose.AsyncImage
 import com.jujodevs.marvelcompose.R
 import com.jujodevs.marvelcompose.data.entities.Character
 import com.jujodevs.marvelcompose.data.entities.MarvelItem
 import com.jujodevs.marvelcompose.data.entities.Reference
 import com.jujodevs.marvelcompose.data.entities.ReferenceList
+import com.jujodevs.marvelcompose.data.network.entities.Result
 import com.jujodevs.marvelcompose.ui.navigation.AppBarIcon
 import com.jujodevs.marvelcompose.ui.navigation.ArrowBackIcon
 import com.jujodevs.marvelcompose.ui.shares.CustomTopAppBar
@@ -53,7 +55,7 @@ import com.jujodevs.marvelcompose.ui.theme.MarvelComposeTheme
 
 @Composable
 fun MarvelItemDetailScreen(
-    marvelItem: MarvelItem?,
+    marvelItem: Result<MarvelItem?>,
     modifier: Modifier = Modifier,
     loading: Boolean = false,
     topBar: (@Composable () -> Unit) -> Unit = {},
@@ -62,28 +64,30 @@ fun MarvelItemDetailScreen(
 ) {
     val context = LocalContext.current
 
-    topBar { (DetailTopbar(marvelItem, onUpClick)) }
-
     if (loading) {
         CircularProgressIndicator()
     }
 
-    if (marvelItem != null) {
-        LazyColumn(
-            modifier = modifier
-                .fillMaxWidth()
-        ) {
-            item {
-                Header(marvelItem)
-            }
-            marvelItem.references.forEach {
-                val (icon, @StringRes stringRes) = it.type.createUiData()
-                section(icon, stringRes, it.references)
+    marvelItem.fold({ ErrorMessage(it) }) { item ->
+        topBar { (DetailTopbar(item, onUpClick)) }
+
+        if (item != null) {
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxWidth()
+            ) {
+                item {
+                    Header(item)
+                }
+                item.references.forEach {
+                    val (icon, @StringRes stringRes) = it.type.createUiData()
+                    section(icon, stringRes, it.references)
+                }
             }
         }
-    }
 
-    bottomBar { DetailBottomBar(marvelItem, context) }
+        bottomBar { DetailBottomBar(item, context) }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -218,7 +222,7 @@ private fun CharacterDetailScreenPreview() {
                 "",
                 emptyList(),
                 emptyList()
-            )
+            ).right()
         )
     }
 }

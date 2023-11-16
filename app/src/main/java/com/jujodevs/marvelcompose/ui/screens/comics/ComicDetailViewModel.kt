@@ -3,7 +3,9 @@ package com.jujodevs.marvelcompose.ui.screens.comics
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.core.Either
 import com.jujodevs.marvelcompose.data.entities.Comic
+import com.jujodevs.marvelcompose.data.network.entities.Result
 import com.jujodevs.marvelcompose.data.repositories.ComicsRepository
 import com.jujodevs.marvelcompose.ui.navigation.NavArg
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,6 +30,6 @@ class ComicDetailViewModel(
 
     data class UiState(
         val loading: Boolean = false,
-        val comic: Comic? = null
+        val comic: Result<Comic?> = Either.Right(null)
     )
 }

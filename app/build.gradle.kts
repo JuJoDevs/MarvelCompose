@@ -90,6 +90,10 @@ dependencies {
     // ICONS
     implementation(libs.icons.extended)
 
+    // ARROW
+    implementation(platform(libs.arrow.stack))
+    implementation(libs.arrow.core)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

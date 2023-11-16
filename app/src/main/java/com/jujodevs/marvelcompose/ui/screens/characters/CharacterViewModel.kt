@@ -2,7 +2,9 @@ package com.jujodevs.marvelcompose.ui.screens.characters
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.core.Either
 import com.jujodevs.marvelcompose.data.entities.Character
+import com.jujodevs.marvelcompose.data.network.entities.Result
 import com.jujodevs.marvelcompose.data.repositories.CharactersRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,6 +24,6 @@ class CharacterViewModel : ViewModel() {
 
     data class UiState(
         val loading: Boolean = false,
-        val characters: List<Character> = emptyList()
+        val characters: Result<List<Character>> = Either.Right(emptyList())
     )
 }

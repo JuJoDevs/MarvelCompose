@@ -13,23 +13,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import arrow.core.Either
 import com.jujodevs.marvelcompose.data.entities.Character
 import com.jujodevs.marvelcompose.data.entities.MarvelItem
+import com.jujodevs.marvelcompose.data.network.entities.Result
 import com.jujodevs.marvelcompose.ui.MarvelScreen
 
 @Composable
 fun <T : MarvelItem> MarvelItemsListScreen(
     modifier: Modifier = Modifier,
     loading: Boolean = false,
-    marvelItems: List<T> = emptyList(),
+    items: Result<List<T>> = Either.Right(emptyList()),
     onClick: (T) -> Unit,
 ) {
-    MarvelItemsList(
-        loading = loading,
-        marvelItems = marvelItems,
-        onClick = onClick,
-        modifier = modifier
-    )
+    items.fold({ ErrorMessage(it) }) {
+        MarvelItemsList(
+            loading = loading,
+            marvelItems = it,
+            onClick = onClick,
+            modifier = modifier
+        )
+    }
 }
 
 @Composable
