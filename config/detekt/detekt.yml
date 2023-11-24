@@ -50,6 +50,12 @@ output-reports:
   # - 'MdOutputReport'
   # - 'SarifOutputReport'
 
+formatting:
+  ImportOrdering:
+    active: false
+    autoCorrect: false
+    layout: '*,java.**,javax.**,kotlin.**,kotlinx.**,^'
+
 comments:
   active: true
   AbsentOrWrongFileLicense:

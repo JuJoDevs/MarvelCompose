@@ -2,13 +2,13 @@ package com.jujodevs.marvelcompose.data.network
 
 import com.jujodevs.marvelcompose.BuildConfig
 import com.jujodevs.marvelcompose.data.generateHash
+import java.util.Date
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.Date
 
 const val ApiEndpoint = "https://gateway.marvel.com/"
 

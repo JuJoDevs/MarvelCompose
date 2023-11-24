@@ -88,8 +88,9 @@ dependencies {
     // NAVIGATION
     implementation(libs.navigation.compose)
 
-    // DETEKT COMPOSE
+    // DETEKT
     detektPlugins(libs.detetkcompose)
+    detektPlugins(libs.detetkformatting)
 
     // COIL
     implementation(libs.coil)
