@@ -188,7 +188,10 @@ private fun DetailBottomBar(
         },
         floatingActionButton = {
             if (marvelItem?.urls?.isNotEmpty() == true) {
-                FloatingActionButton(onClick = { shareCharacter(context, marvelItem) }) {
+                FloatingActionButton(
+                    onClick = { shareCharacter(context, marvelItem) },
+                    shape = MaterialTheme.shapes.medium,
+                ) {
                     Icon(
                         imageVector = Icons.Default.Share,
                         contentDescription = stringResource(R.string.share_character),
