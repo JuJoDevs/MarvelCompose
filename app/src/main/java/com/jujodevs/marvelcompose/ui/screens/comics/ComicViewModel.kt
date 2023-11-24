@@ -13,12 +13,14 @@ import kotlinx.coroutines.launch
 
 class ComicViewModel : ViewModel() {
 
-    private val _state = MutableStateFlow(Comic.Format.values().associateWith { mutableStateOf(UiState()) })
+    private val _state = MutableStateFlow(
+        Comic.Format.values().associateWith { mutableStateOf(UiState()) },
+    )
     val state = _state.asStateFlow()
 
     fun formatRequested(format: Comic.Format) {
         val uiState = _state.value.getValue(format)
-        if (uiState.value.comics.isRight()) return
+        if (uiState.value.comics.isRight { it.isNotEmpty() }) return
 
         viewModelScope.launch {
             uiState.value = UiState(loading = true)

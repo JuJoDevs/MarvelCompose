@@ -14,7 +14,7 @@ object ComicsRepository {
             .getComics(
                 offset,
                 limit,
-                format?.toStringFormat()
+                format?.toStringFormat(),
             ).data.results.map { it.asComic() }
     }
 

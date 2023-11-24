@@ -38,7 +38,7 @@ fun ComicsScreen(
     currentRoute: String = "",
     onNavItemClick: (Boolean, NavItem) -> Unit = { _, _ -> },
     onClick: (Comic) -> Unit = {},
-    viewModel: ComicViewModel = viewModel(),
+    viewModel: ComicViewModel = viewModel()
 ) {
     val state by viewModel.state.collectAsState()
     val formats = Comic.Format.values().toList()
@@ -50,7 +50,7 @@ fun ComicsScreen(
     Column(modifier = modifier) {
         ComicsFotmatTabRow(pagerState, formats)
         HorizontalPager(
-            state = pagerState
+            state = pagerState,
         ) { page ->
             val format = formats[page]
             viewModel.formatRequested(format)
@@ -59,14 +59,14 @@ fun ComicsScreen(
                 loading = pageState.loading,
                 items = pageState.comics,
                 onClick = onClick,
-                modifier = Modifier
+                modifier = Modifier,
             )
         }
     }
     bottomBar {
         AppBottomNavigation(
             currentRoute = currentRoute,
-            onNavItemClick = onNavItemClick
+            onNavItemClick = onNavItemClick,
         )
     }
 }
@@ -75,7 +75,7 @@ fun ComicsScreen(
 @Composable
 private fun ComicsFotmatTabRow(
     pagerState: PagerState,
-    formats: List<Comic.Format>,
+    formats: List<Comic.Format>
 ) {
     val scope = rememberCoroutineScope()
     ScrollableTabRow(
@@ -83,15 +83,15 @@ private fun ComicsFotmatTabRow(
         edgePadding = 0.dp,
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
-                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
             )
-        }
+        },
     ) {
         formats.forEach {
             Tab(
                 selected = it.ordinal == pagerState.currentPage,
                 onClick = { scope.launch { pagerState.animateScrollToPage(it.ordinal) } },
-                text = { Text(text = stringResource(id = it.toStringRes()).uppercase()) }
+                text = { Text(text = stringResource(id = it.toStringRes()).uppercase()) },
             )
         }
     }
@@ -115,7 +115,7 @@ fun ComicDetailScreen(
     topBar: (@Composable () -> Unit) -> Unit = {},
     bottomBar: (@Composable () -> Unit) -> Unit = {},
     onUpClick: () -> Unit = {},
-    viewmodel: ComicDetailViewModel = viewModel(),
+    viewmodel: ComicDetailViewModel = viewModel()
 ) {
     val state by viewmodel.state.collectAsState()
     MarvelItemDetailScreen(
@@ -124,6 +124,6 @@ fun ComicDetailScreen(
         topBar = topBar,
         bottomBar = bottomBar,
         onUpClick = onUpClick,
-        modifier = modifier
+        modifier = modifier,
     )
 }
