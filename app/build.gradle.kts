@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.io.gitlab.arturbosch.detekt)
+    alias((libs.plugins.org.jlleitschuh.gradle.ktlint))
 }
 
 android {
@@ -25,7 +26,11 @@ android {
             useSupportLibrary = true
         }
         buildConfigField("String", "MARVEL_PUBLIC_KEY", properties.getProperty("MARVEL_PUBLIC_KEY"))
-        buildConfigField("String", "MARVEL_PRIVATE_KEY", properties.getProperty("MARVEL_PRIVATE_KEY"))
+        buildConfigField(
+            "String",
+            "MARVEL_PRIVATE_KEY",
+            properties.getProperty("MARVEL_PRIVATE_KEY"),
+        )
     }
 
     buildTypes {
@@ -34,7 +39,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
         getByName("debug") {
@@ -60,6 +65,13 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
+
+tasks.getByPath("preBuild").dependsOn("ktlintFormat")
+
+ktlint {
+    android = true
+    ignoreFailures = false
 }
 
 dependencies {
