@@ -16,7 +16,7 @@ fun rememberMarvelAppState(
     topBar: MutableState<@Composable () -> Unit> = rememberComposable(),
     bottomBar: MutableState<@Composable () -> Unit> = rememberComposable(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
-    coroutineScope: CoroutineScope = rememberCoroutineScope(),
+    coroutineScope: CoroutineScope = rememberCoroutineScope()
 ): MarvelAppState = remember(topBar, bottomBar, drawerState, coroutineScope) {
     MarvelAppState(topBar, bottomBar, drawerState, coroutineScope)
 }
@@ -25,5 +25,5 @@ class MarvelAppState(
     var topBar: MutableState<@Composable () -> Unit>,
     val bottomBar: MutableState<@Composable () -> Unit>,
     val drawerState: DrawerState,
-    val coroutineScope: CoroutineScope,
+    val coroutineScope: CoroutineScope
 )

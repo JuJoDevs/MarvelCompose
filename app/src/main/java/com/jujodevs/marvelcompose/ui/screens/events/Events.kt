@@ -24,7 +24,7 @@ fun EventsScreen(
     currentRoute: String = "",
     onNavItemClick: (Boolean, NavItem) -> Unit = { _, _ -> },
     onClick: (Event) -> Unit = {},
-    viewModel: EventsViewModel = viewModel(),
+    viewModel: EventsViewModel = viewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -35,12 +35,12 @@ fun EventsScreen(
         loading = state.loading,
         items = state.events,
         onClick = onClick,
-        modifier = modifier
+        modifier = modifier,
     )
     bottomBar {
         AppBottomNavigation(
             currentRoute = currentRoute,
-            onNavItemClick = onNavItemClick
+            onNavItemClick = onNavItemClick,
         )
     }
 }
@@ -51,7 +51,7 @@ fun EventDetailScreen(
     topBar: (@Composable () -> Unit) -> Unit = {},
     bottomBar: (@Composable () -> Unit) -> Unit = {},
     onUpClick: () -> Unit = {},
-    viewModel: EventDetailViewModel = viewModel(),
+    viewModel: EventDetailViewModel = viewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -61,6 +61,6 @@ fun EventDetailScreen(
         topBar = topBar,
         bottomBar = bottomBar,
         onUpClick = onUpClick,
-        modifier = modifier
+        modifier = modifier,
     )
 }

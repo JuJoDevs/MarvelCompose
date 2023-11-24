@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 fun ArrowBackIcon(modifier: Modifier = Modifier, onBack: () -> Unit = {}) {
     IconButton(
         modifier = modifier,
-        onClick = { onBack() }
+        onClick = { onBack() },
     ) {
         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
     }

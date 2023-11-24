@@ -20,6 +20,6 @@ abstract class Repository<T : MarvelItem> {
 
     internal suspend fun find(
         id: Int,
-        findActionRemote: suspend () -> T,
+        findActionRemote: suspend () -> T
     ): Result<T> = tryCall { cache.find { it.id == id } ?: findActionRemote() }
 }

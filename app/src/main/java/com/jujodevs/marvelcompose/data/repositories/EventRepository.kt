@@ -9,7 +9,7 @@ object EventRepository : Repository<Event>() {
     suspend fun get(): Result<List<Event>> = super.get {
         ApiClient.eventsService.getEvents(
             super.offset,
-            super.limit
+            super.limit,
         ).data.results.map { it.asEvent() }
     }
 
@@ -17,6 +17,6 @@ object EventRepository : Repository<Event>() {
         id,
         findActionRemote = {
             ApiClient.eventsService.findEvent(id).data.results.first().asEvent()
-        }
+        },
     )
 }

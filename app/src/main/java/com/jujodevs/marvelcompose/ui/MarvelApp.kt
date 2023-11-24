@@ -25,7 +25,7 @@ fun MarvelApp(modifier: Modifier = Modifier) {
             ModalDrawerSheet {
                 DrawerContent(onOptionClick = { })
             }
-        }
+        },
     ) {
         Scaffold(
             topBar = appState.topBar.value,
@@ -34,12 +34,14 @@ fun MarvelApp(modifier: Modifier = Modifier) {
                     Navigation(
                         topBar = { appState.topBar.value = it },
                         bottomBar = { appState.bottomBar.value = it },
-                        onMenuClick = { appState.coroutineScope.launch { appState.drawerState.open() } }
+                        onMenuClick = {
+                            appState.coroutineScope.launch { appState.drawerState.open() }
+                        },
                     )
                 }
             },
             bottomBar = appState.bottomBar.value,
-            modifier = modifier
+            modifier = modifier,
         )
     }
 }
@@ -50,11 +52,11 @@ fun MarvelScreen(
     content: @Composable () -> Unit
 ) {
     MarvelComposeTheme(
-        dynamicColor = false
+        dynamicColor = false,
     ) {
         Surface(
             modifier = modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             content()
         }

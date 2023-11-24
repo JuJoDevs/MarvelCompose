@@ -15,7 +15,7 @@ import com.jujodevs.marvelcompose.R
 enum class NavItem(
     val navCommand: NavCommand,
     val icon: ImageVector,
-    @StringRes val title: Int,
+    @StringRes val title: Int
 ) {
     HOME(NavCommand.ContentType(Feature.CHARACTERS), Icons.Default.Home, R.string.home),
     SETTINGS(NavCommand.ContentType(Feature.SETTINGS), Icons.Default.Settings, R.string.settings),
@@ -28,7 +28,7 @@ enum class NavItem(
 sealed class NavCommand(
     internal val feature: Feature,
     internal val subRoute: String = "home",
-    private val navArgs: List<NavArg> = emptyList(),
+    private val navArgs: List<NavArg> = emptyList()
 ) {
     class ContentType(feature: Feature) : NavCommand(feature)
 

@@ -17,13 +17,13 @@ import com.jujodevs.marvelcompose.ui.screens.events.EventsScreen
 fun Navigation(
     topBar: (@Composable () -> Unit) -> Unit,
     bottomBar: (@Composable () -> Unit) -> Unit,
-    onMenuClick: () -> Unit,
+    onMenuClick: () -> Unit
 ) {
     val navigationState = rememberNavigationState()
 
     NavHost(
         navController = navigationState.navController,
-        startDestination = Feature.CHARACTERS.route
+        startDestination = Feature.CHARACTERS.route,
     ) {
         charactersNav(navigationState, topBar, bottomBar, onMenuClick)
         comicsNav(navigationState, topBar, bottomBar, onMenuClick)
@@ -35,11 +35,11 @@ private fun NavGraphBuilder.charactersNav(
     navigationState: NavigationState,
     topBar: (@Composable () -> Unit) -> Unit = {},
     bottomBar: (@Composable () -> Unit) -> Unit = {},
-    onMenuClick: () -> Unit = {},
+    onMenuClick: () -> Unit = {}
 ) {
     navigation(
         startDestination = NavCommand.ContentType(Feature.CHARACTERS).route,
-        route = Feature.CHARACTERS.route
+        route = Feature.CHARACTERS.route,
     ) {
         composable(NavCommand.ContentType(Feature.CHARACTERS)) {
             CharactersScreen(
@@ -50,14 +50,14 @@ private fun NavGraphBuilder.charactersNav(
                 onNavItemClick = { isCurrentRoute, item ->
                     navigationState.navigatePoppingUpToStartDestination(
                         isCurrentRoute = isCurrentRoute,
-                        route = item.navCommand.route
+                        route = item.navCommand.route,
                     )
                 },
                 onClick = { character ->
                     navigationState.navigate(
-                        NavCommand.ContentDetail(Feature.CHARACTERS).createRoute(character.id)
+                        NavCommand.ContentDetail(Feature.CHARACTERS).createRoute(character.id),
                     )
-                }
+                },
             )
         }
 
@@ -65,7 +65,7 @@ private fun NavGraphBuilder.charactersNav(
             CharacterDetailScreen(
                 topBar = topBar,
                 bottomBar = bottomBar,
-                onUpClick = { navigationState.popBackStack() }
+                onUpClick = { navigationState.popBackStack() },
             )
         }
     }
@@ -75,11 +75,11 @@ private fun NavGraphBuilder.comicsNav(
     navigationState: NavigationState,
     topBar: (@Composable () -> Unit) -> Unit,
     bottomBar: (@Composable () -> Unit) -> Unit,
-    onMenuClick: () -> Unit = {},
+    onMenuClick: () -> Unit = {}
 ) {
     navigation(
         startDestination = NavCommand.ContentType(Feature.COMICS).route,
-        route = Feature.COMICS.route
+        route = Feature.COMICS.route,
     ) {
         composable(NavCommand.ContentType(Feature.COMICS)) {
             ComicsScreen(
@@ -90,14 +90,14 @@ private fun NavGraphBuilder.comicsNav(
                 onNavItemClick = { isCurrentRoute, item ->
                     navigationState.navigatePoppingUpToStartDestination(
                         isCurrentRoute = isCurrentRoute,
-                        route = item.navCommand.route
+                        route = item.navCommand.route,
                     )
                 },
                 onClick = { comic ->
                     navigationState.navigate(
-                        NavCommand.ContentDetail(Feature.COMICS).createRoute(comic.id)
+                        NavCommand.ContentDetail(Feature.COMICS).createRoute(comic.id),
                     )
-                }
+                },
             )
         }
 
@@ -105,7 +105,7 @@ private fun NavGraphBuilder.comicsNav(
             ComicDetailScreen(
                 topBar = topBar,
                 bottomBar = bottomBar,
-                onUpClick = { navigationState.popBackStack() }
+                onUpClick = { navigationState.popBackStack() },
             )
         }
     }
@@ -115,11 +115,11 @@ private fun NavGraphBuilder.eventsNav(
     navigationState: NavigationState,
     topBar: (@Composable () -> Unit) -> Unit,
     bottomBar: (@Composable () -> Unit) -> Unit,
-    onMenuClick: () -> Unit = {},
+    onMenuClick: () -> Unit = {}
 ) {
     navigation(
         startDestination = NavCommand.ContentType(Feature.EVENTS).route,
-        route = Feature.EVENTS.route
+        route = Feature.EVENTS.route,
     ) {
         composable(NavCommand.ContentType(Feature.EVENTS)) {
             EventsScreen(
@@ -130,14 +130,14 @@ private fun NavGraphBuilder.eventsNav(
                 onNavItemClick = { isCurrentRoute, item ->
                     navigationState.navigatePoppingUpToStartDestination(
                         isCurrentRoute = isCurrentRoute,
-                        route = item.navCommand.route
+                        route = item.navCommand.route,
                     )
                 },
                 onClick = { event ->
                     navigationState.navigate(
-                        NavCommand.ContentDetail(Feature.EVENTS).createRoute(event.id)
+                        NavCommand.ContentDetail(Feature.EVENTS).createRoute(event.id),
                     )
-                }
+                },
             )
         }
 
@@ -145,7 +145,7 @@ private fun NavGraphBuilder.eventsNav(
             EventDetailScreen(
                 topBar = topBar,
                 bottomBar = bottomBar,
-                onUpClick = { navigationState.popBackStack() }
+                onUpClick = { navigationState.popBackStack() },
             )
         }
     }
@@ -153,11 +153,11 @@ private fun NavGraphBuilder.eventsNav(
 
 private fun NavGraphBuilder.composable(
     navItem: NavCommand,
-    content: @Composable (NavBackStackEntry) -> Unit,
+    content: @Composable (NavBackStackEntry) -> Unit
 ) {
     composable(
         route = navItem.route,
-        arguments = navItem.args
+        arguments = navItem.args,
     ) {
         content(it)
     }

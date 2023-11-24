@@ -11,11 +11,11 @@ fun AppBarIcon(
     imageVector: ImageVector,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-    contentDescription: String? = null,
+    contentDescription: String? = null
 ) {
     IconButton(
         onClick = { onClick() },
-        modifier = modifier
+        modifier = modifier,
     ) {
         Icon(imageVector = imageVector, contentDescription = contentDescription)
     }

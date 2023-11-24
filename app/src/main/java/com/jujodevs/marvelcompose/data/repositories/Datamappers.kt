@@ -21,9 +21,9 @@ fun ApiCharacter.asCharacter(): Character = Character(
         comics.toDomain(ReferenceList.Type.COMIC),
         events.toDomain(ReferenceList.Type.EVENT),
         series.toDomain(ReferenceList.Type.SERIES),
-        stories.toDomain(ReferenceList.Type.STORY)
+        stories.toDomain(ReferenceList.Type.STORY),
     ),
-    urls.map { Url(it.type, it.url) }
+    urls.map { Url(it.type, it.url) },
 )
 
 fun ApiEvent.asEvent(): Event = Event(
@@ -35,9 +35,9 @@ fun ApiEvent.asEvent(): Event = Event(
         comics.toDomain(ReferenceList.Type.COMIC),
         characters.toDomain(ReferenceList.Type.CHARACTER),
         series.toDomain(ReferenceList.Type.SERIES),
-        stories.toDomain(ReferenceList.Type.STORY)
+        stories.toDomain(ReferenceList.Type.STORY),
     ),
-    urls.map { Url(it.type, it.url) }
+    urls.map { Url(it.type, it.url) },
 )
 
 fun ApiComic.asComic(): Comic = Comic(
@@ -50,9 +50,9 @@ fun ApiComic.asComic(): Comic = Comic(
         characters.toDomain(ReferenceList.Type.CHARACTER),
         events.toDomain(ReferenceList.Type.EVENT),
         series.toDomain(ReferenceList.Type.SERIES),
-        stories.toDomain(ReferenceList.Type.STORY)
+        stories.toDomain(ReferenceList.Type.STORY),
     ),
-    urls.map { Url(it.type, it.url) }
+    urls.map { Url(it.type, it.url) },
 )
 
 private fun String.toDomain(): Comic.Format = when (this) {
@@ -82,6 +82,6 @@ private fun ApiReferenceList.toDomain(type: ReferenceList.Type): ReferenceList {
         type,
         items
             ?.let { items.map { Reference(it.name) } }
-            ?: emptyList()
+            ?: emptyList(),
     )
 }

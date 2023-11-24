@@ -29,7 +29,7 @@ fun CustomTopAppBar(
         actions = actions,
         windowInsets = windowInsets,
         colors = colors,
-        scrollBehavior = scrollBehavior
+        scrollBehavior = scrollBehavior,
     )
 }
 
@@ -40,5 +40,5 @@ fun TopAppBarDefaults.customTopAppBarColors() =
         containerColor = MaterialTheme.colorScheme.primary,
         navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
         titleContentColor = MaterialTheme.colorScheme.onPrimary,
-        actionIconContentColor = MaterialTheme.colorScheme.onPrimary
+        actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
     )

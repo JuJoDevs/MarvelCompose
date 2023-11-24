@@ -60,7 +60,7 @@ fun MarvelItemDetailScreen(
     loading: Boolean = false,
     topBar: (@Composable () -> Unit) -> Unit = {},
     bottomBar: (@Composable () -> Unit) -> Unit = {},
-    onUpClick: () -> Unit = {},
+    onUpClick: () -> Unit = {}
 ) {
     val context = LocalContext.current
 
@@ -74,7 +74,7 @@ fun MarvelItemDetailScreen(
         if (item != null) {
             LazyColumn(
                 modifier = modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
                 item {
                     Header(item)
@@ -94,7 +94,7 @@ fun MarvelItemDetailScreen(
 @Composable
 private fun DetailTopbar(
     marvelItem: MarvelItem?,
-    onUpClick: () -> Unit,
+    onUpClick: () -> Unit
 ) {
     CustomTopAppBar(
         title = { Text(text = marvelItem?.title ?: "") },
@@ -103,14 +103,14 @@ private fun DetailTopbar(
         },
         actions = {
             AppBarOverflowMenu(marvelItem?.urls ?: emptyList())
-        }
+        },
     )
 }
 
 @Composable
 fun Header(item: MarvelItem, modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier
+        modifier = modifier,
     ) {
         AsyncImage(
             model = item.thumbnail,
@@ -119,7 +119,7 @@ fun Header(item: MarvelItem, modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.LightGray)
-                .aspectRatio(1f)
+                .aspectRatio(1f),
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
@@ -128,13 +128,13 @@ fun Header(item: MarvelItem, modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.headlineLarge,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp, 0.dp)
+                .padding(16.dp, 0.dp),
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = item.description,
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(16.dp, 0.dp)
+            modifier = Modifier.padding(16.dp, 0.dp),
         )
         Spacer(modifier = Modifier.height(16.dp))
     }
@@ -146,7 +146,7 @@ fun LazyListScope.section(icon: ImageVector, @StringRes name: Int, items: List<R
         Text(
             text = stringResource(id = name),
             style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
         )
     }
     items(items) {
@@ -154,10 +154,10 @@ fun LazyListScope.section(icon: ImageVector, @StringRes name: Int, items: List<R
             leadingContent = {
                 Icon(
                     imageVector = icon,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             },
-            headlineContent = { Text(it.name) }
+            headlineContent = { Text(it.name) },
         )
     }
 }
@@ -173,17 +173,17 @@ private fun ReferenceList.Type.createUiData(): Pair<ImageVector, Int> = when (th
 @Composable
 private fun DetailBottomBar(
     marvelItem: MarvelItem?,
-    context: Context,
+    context: Context
 ) {
     BottomAppBar(
         actions = {
             AppBarIcon(
                 imageVector = Icons.Default.Menu,
-                onClick = { /*TODO*/ }
+                onClick = { /*TODO*/ },
             )
             AppBarIcon(
                 imageVector = Icons.Default.Favorite,
-                onClick = { /*TODO*/ }
+                onClick = { /*TODO*/ },
             )
         },
         floatingActionButton = {
@@ -191,11 +191,11 @@ private fun DetailBottomBar(
                 FloatingActionButton(onClick = { shareCharacter(context, marvelItem) }) {
                     Icon(
                         imageVector = Icons.Default.Share,
-                        contentDescription = stringResource(R.string.share_character)
+                        contentDescription = stringResource(R.string.share_character),
                     )
                 }
             }
-        }
+        },
     )
 }
 
@@ -221,8 +221,8 @@ private fun CharacterDetailScreenPreview() {
                 "description preview",
                 "",
                 emptyList(),
-                emptyList()
-            ).right()
+                emptyList(),
+            ).right(),
         )
     }
 }

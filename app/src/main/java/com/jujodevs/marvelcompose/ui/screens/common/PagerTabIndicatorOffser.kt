@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.lerp
 fun Modifier.pagerTabIndicatorOffset(
     pagerState: androidx.compose.foundation.pager.PagerState,
     tabPositions: List<TabPosition>,
-    pageIndexMapping: (Int) -> Int = { it },
+    pageIndexMapping: (Int) -> Int = { it }
 ): Modifier {
     val stateBridge = object : PagerStateBridge {
         override val currentPage: Int
@@ -26,7 +26,7 @@ fun Modifier.pagerTabIndicatorOffset(
 private fun Modifier.pagerTabIndicatorOffset(
     pagerState: PagerStateBridge,
     tabPositions: List<TabPosition>,
-    pageIndexMapping: (Int) -> Int = { it },
+    pageIndexMapping: (Int) -> Int = { it }
 ): Modifier = layout { measurable, constraints ->
     if (tabPositions.isEmpty()) {
         // If there are no pages, nothing to show
@@ -56,13 +56,13 @@ private fun Modifier.pagerTabIndicatorOffset(
                 minWidth = indicatorWidth,
                 maxWidth = indicatorWidth,
                 minHeight = 0,
-                maxHeight = constraints.maxHeight
-            )
+                maxHeight = constraints.maxHeight,
+            ),
         )
         layout(constraints.maxWidth, maxOf(placeable.height, constraints.minHeight)) {
             placeable.placeRelative(
                 indicatorOffset,
-                maxOf(constraints.minHeight - placeable.height, 0)
+                maxOf(constraints.minHeight - placeable.height, 0),
             )
         }
     }

@@ -17,6 +17,6 @@ fun BackgroundScaffold(modifier: Modifier = Modifier) {
         content = { paddingValues ->
             Spacer(modifier = Modifier.padding(paddingValues))
         },
-        modifier = modifier
+        modifier = modifier,
     )
 }

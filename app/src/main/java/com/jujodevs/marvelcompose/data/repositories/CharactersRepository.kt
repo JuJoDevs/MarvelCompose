@@ -9,7 +9,7 @@ object CharactersRepository : Repository<Character>() {
     suspend fun get(): Result<List<Character>> = super.get {
         ApiClient.charactersService.getCharacters(
             super.offset,
-            super.limit
+            super.limit,
         ).data.results.map { it.asCharacter() }
     }
 
@@ -17,6 +17,6 @@ object CharactersRepository : Repository<Character>() {
         id,
         findActionRemote = {
             ApiClient.charactersService.findCharacter(id).data.results.first().asCharacter()
-        }
+        },
     )
 }

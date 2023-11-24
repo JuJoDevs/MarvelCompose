@@ -10,7 +10,7 @@ interface EventsService {
     @GET("/v1/public/events")
     suspend fun getEvents(
         @Query("offset") offset: Int,
-        @Query("limit") limit: Int,
+        @Query("limit") limit: Int
     ): ApiResponse<ApiEvent>
 
     @GET("/v1/public/events/{eventId}")

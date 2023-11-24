@@ -16,13 +16,13 @@ import com.jujodevs.marvelcompose.ui.shares.CustomTopAppBar
 fun TopAppBarContentType(
     @StringRes title: Int,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     CustomTopAppBar(
         title = { Text(text = stringResource(id = title)) },
         navigationIcon = {
             AppBarIcon(imageVector = Icons.Default.Menu, onClick = { onClick() })
         },
-        modifier = modifier
+        modifier = modifier,
     )
 }

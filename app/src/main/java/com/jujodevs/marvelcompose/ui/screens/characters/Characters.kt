@@ -22,7 +22,7 @@ fun CharactersScreen(
     currentRoute: String = "",
     onNavItemClick: (Boolean, NavItem) -> Unit = { _, _ -> },
     onClick: (Character) -> Unit = {},
-    viewModel: CharacterViewModel = viewModel(),
+    viewModel: CharacterViewModel = viewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -33,12 +33,12 @@ fun CharactersScreen(
         modifier = modifier,
         loading = state.loading,
         items = state.characters,
-        onClick = onClick
+        onClick = onClick,
     )
     bottomBar {
         AppBottomNavigation(
             currentRoute = currentRoute,
-            onNavItemClick = onNavItemClick
+            onNavItemClick = onNavItemClick,
         )
     }
 }
@@ -49,7 +49,7 @@ fun CharacterDetailScreen(
     viewmodel: CharacterDetailViewmodel = viewModel(),
     topBar: (@Composable () -> Unit) -> Unit = {},
     bottomBar: (@Composable () -> Unit) -> Unit = {},
-    onUpClick: () -> Unit = {},
+    onUpClick: () -> Unit = {}
 
 ) {
     val state by viewmodel.state.collectAsState()
@@ -60,6 +60,6 @@ fun CharacterDetailScreen(
         topBar = topBar,
         bottomBar = bottomBar,
         onUpClick = onUpClick,
-        modifier = modifier
+        modifier = modifier,
     )
 }

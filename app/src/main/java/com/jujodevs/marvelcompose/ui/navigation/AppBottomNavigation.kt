@@ -14,13 +14,13 @@ import androidx.compose.ui.res.stringResource
 fun AppBottomNavigation(
     modifier: Modifier = Modifier,
     currentRoute: String = "",
-    onNavItemClick: (Boolean, NavItem) -> Unit,
+    onNavItemClick: (Boolean, NavItem) -> Unit
 ) {
     val navigatonOptions = listOf(NavItem.CHARACTERS, NavItem.COMICS, NavItem.EVENTS)
     NavigationBar(
         contentColor = MaterialTheme.colorScheme.onPrimary,
         containerColor = MaterialTheme.colorScheme.primary,
-        modifier = modifier
+        modifier = modifier,
     ) {
         navigatonOptions.forEach { item ->
             val title = stringResource(id = item.title)
@@ -31,15 +31,15 @@ fun AppBottomNavigation(
                 icon = {
                     Icon(
                         imageVector = item.icon,
-                        contentDescription = title
+                        contentDescription = title,
                     )
                 },
                 label = { Text(text = title) },
                 colors = NavigationBarItemDefaults.colors(
                     unselectedIconColor = MaterialTheme.colorScheme.inversePrimary,
                     unselectedTextColor = MaterialTheme.colorScheme.inversePrimary,
-                    selectedTextColor = MaterialTheme.colorScheme.onPrimary
-                )
+                    selectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                ),
             )
         }
     }

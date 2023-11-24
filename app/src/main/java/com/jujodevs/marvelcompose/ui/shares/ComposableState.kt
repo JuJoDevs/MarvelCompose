@@ -6,7 +6,7 @@ import androidx.compose.runtime.remember
 
 @Composable
 fun rememberComposable(
-    composable: @Composable () -> Unit = { },
+    composable: @Composable () -> Unit = { }
 ) = remember {
     mutableStateOf<@Composable () -> Unit>(composable)
 }

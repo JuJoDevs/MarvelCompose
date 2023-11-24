@@ -27,18 +27,18 @@ fun ErrorMessage(error: Error, modifier: Modifier = Modifier) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         Icon(
             imageVector = Icons.Default.Warning,
             contentDescription = message,
             tint = MaterialTheme.colorScheme.error,
-            modifier = Modifier.size(128.dp)
+            modifier = Modifier.size(128.dp),
         )
         Text(
             text = message,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
         )
     }
 }

@@ -32,16 +32,16 @@ fun AppBarOverflowMenu(urls: List<Url>, modifier: Modifier = Modifier) {
 
     IconButton(
         onClick = { showMenu = !showMenu },
-        modifier = modifier
+        modifier = modifier,
     ) {
         Icon(
             imageVector = Icons.Default.MoreVert,
-            contentDescription = "More Actions"
+            contentDescription = "More Actions",
         )
         DropdownMenu(
             expanded = showMenu,
             onDismissRequest = { showMenu = false },
-            offset = DpOffset((dimensionResource(id = R.dimen.offSetDropdownMenu)), 0.dp)
+            offset = DpOffset((dimensionResource(id = R.dimen.offSetDropdownMenu)), 0.dp),
         ) {
             urls.forEach { url ->
                 DropdownMenuItem(
@@ -49,13 +49,13 @@ fun AppBarOverflowMenu(urls: List<Url>, modifier: Modifier = Modifier) {
                         ListItem(
                             headlineContent = {
                                 Text(text = url.type)
-                            }
+                            },
                         )
                     },
                     onClick = {
                         uriHandler.openUri(url.url)
                         showMenu = false
-                    }
+                    },
                 )
             }
         }
