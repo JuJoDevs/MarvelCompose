@@ -8,12 +8,16 @@ import com.jujodevs.marvelcompose.data.entities.Event
 import com.jujodevs.marvelcompose.data.network.entities.Result
 import com.jujodevs.marvelcompose.data.repositories.EventRepository
 import com.jujodevs.marvelcompose.ui.navigation.NavArg
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class EventDetailViewModel(
-    savedStateHandle: SavedStateHandle
+@HiltViewModel
+class EventDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    eventRepository: EventRepository
 ) : ViewModel() {
 
     private val id = savedStateHandle.get<Int>(NavArg.ItemId.key) ?: 0
@@ -24,7 +28,7 @@ class EventDetailViewModel(
     init {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            _state.value = UiState(event = EventRepository.find(id))
+            _state.value = UiState(event = eventRepository.find(id))
         }
     }
 

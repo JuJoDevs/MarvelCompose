@@ -17,7 +17,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.jujodevs.marvelcompose.R
 import com.jujodevs.marvelcompose.data.entities.Comic
 import com.jujodevs.marvelcompose.ui.navigation.AppBottomNavigation
@@ -38,7 +38,7 @@ fun ComicsScreen(
     currentRoute: String = "",
     onNavItemClick: (Boolean, NavItem) -> Unit = { _, _ -> },
     onClick: (Comic) -> Unit = {},
-    viewModel: ComicViewModel = viewModel()
+    viewModel: ComicViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
     val formats = Comic.Format.values().toList()
@@ -115,7 +115,7 @@ fun ComicDetailScreen(
     topBar: (@Composable () -> Unit) -> Unit = {},
     bottomBar: (@Composable () -> Unit) -> Unit = {},
     onUpClick: () -> Unit = {},
-    viewmodel: ComicDetailViewModel = viewModel()
+    viewmodel: ComicDetailViewModel = hiltViewModel()
 ) {
     val state by viewmodel.state.collectAsState()
     MarvelItemDetailScreen(

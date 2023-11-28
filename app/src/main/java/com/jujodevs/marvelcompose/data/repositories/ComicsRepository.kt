@@ -1,16 +1,20 @@
 package com.jujodevs.marvelcompose.data.repositories
 
 import com.jujodevs.marvelcompose.data.entities.Comic
-import com.jujodevs.marvelcompose.data.network.ApiClient
 import com.jujodevs.marvelcompose.data.network.entities.Result
 import com.jujodevs.marvelcompose.data.network.entities.tryCall
+import com.jujodevs.marvelcompose.data.network.remote.ComicService
+import javax.inject.Inject
 
-object ComicsRepository {
-    private const val offset = 0
-    private const val limit = 20
+class ComicsRepository @Inject constructor(
+    private val comicService: ComicService
+) {
+    companion object {
+        private const val offset = 0
+        private const val limit = 20
+    }
     suspend fun get(format: Comic.Format? = null): Result<List<Comic>> = tryCall {
-        ApiClient
-            .comicService
+        comicService
             .getComics(
                 offset,
                 limit,
@@ -19,7 +23,7 @@ object ComicsRepository {
     }
 
     suspend fun find(id: Int): Result<Comic> = tryCall {
-        ApiClient.comicService.findComic(id)
+        comicService.findComic(id)
             .data.results.first().asComic()
     }
 }

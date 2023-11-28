@@ -8,12 +8,16 @@ import com.jujodevs.marvelcompose.data.entities.Comic
 import com.jujodevs.marvelcompose.data.network.entities.Result
 import com.jujodevs.marvelcompose.data.repositories.ComicsRepository
 import com.jujodevs.marvelcompose.ui.navigation.NavArg
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ComicDetailViewModel(
-    savedStateHandle: SavedStateHandle
+@HiltViewModel
+class ComicDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    comicsRepository: ComicsRepository
 ) : ViewModel() {
 
     private val id = savedStateHandle.get<Int>(NavArg.ItemId.key) ?: 0
@@ -24,7 +28,7 @@ class ComicDetailViewModel(
     init {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            _state.value = UiState(comic = ComicsRepository.find(id))
+            _state.value = UiState(comic = comicsRepository.find(id))
         }
     }
 

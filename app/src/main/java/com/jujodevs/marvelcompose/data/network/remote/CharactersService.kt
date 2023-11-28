@@ -1,4 +1,4 @@
-package com.jujodevs.marvelcompose.data.network
+package com.jujodevs.marvelcompose.data.network.remote
 
 import com.jujodevs.marvelcompose.data.network.entities.ApiCharacter
 import com.jujodevs.marvelcompose.data.network.entities.ApiResponse

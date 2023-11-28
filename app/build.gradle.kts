@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.io.gitlab.arturbosch.detekt)
     alias((libs.plugins.org.jlleitschuh.gradle.ktlint))
+    alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.com.google.devtools.ksp)
 }
 
 android {
@@ -106,6 +108,11 @@ dependencies {
     // ARROW
     implementation(platform(libs.arrow.stack))
     implementation(libs.arrow.core)
+
+    // HILT
+    implementation(libs.dagger.hilt.android)
+    ksp(libs.dagger.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

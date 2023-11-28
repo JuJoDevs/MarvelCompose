@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.jujodevs.marvelcompose.R
 import com.jujodevs.marvelcompose.data.entities.Character
 import com.jujodevs.marvelcompose.ui.navigation.AppBottomNavigation
@@ -22,7 +22,7 @@ fun CharactersScreen(
     currentRoute: String = "",
     onNavItemClick: (Boolean, NavItem) -> Unit = { _, _ -> },
     onClick: (Character) -> Unit = {},
-    viewModel: CharacterViewModel = viewModel()
+    viewModel: CharacterViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -46,7 +46,7 @@ fun CharactersScreen(
 @Composable
 fun CharacterDetailScreen(
     modifier: Modifier = Modifier,
-    viewmodel: CharacterDetailViewmodel = viewModel(),
+    viewmodel: CharacterDetailViewmodel = hiltViewModel(),
     topBar: (@Composable () -> Unit) -> Unit = {},
     bottomBar: (@Composable () -> Unit) -> Unit = {},
     onUpClick: () -> Unit = {}

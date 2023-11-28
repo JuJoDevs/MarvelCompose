@@ -1,13 +1,16 @@
 package com.jujodevs.marvelcompose.data.repositories
 
 import com.jujodevs.marvelcompose.data.entities.Character
-import com.jujodevs.marvelcompose.data.network.ApiClient
 import com.jujodevs.marvelcompose.data.network.entities.Result
+import com.jujodevs.marvelcompose.data.network.remote.CharactersService
+import javax.inject.Inject
 
-object CharactersRepository : Repository<Character>() {
+class CharactersRepository @Inject constructor(
+    private val service: CharactersService
+) : Repository<Character>() {
 
     suspend fun get(): Result<List<Character>> = super.get {
-        ApiClient.charactersService.getCharacters(
+        service.getCharacters(
             super.offset,
             super.limit,
         ).data.results.map { it.asCharacter() }
@@ -16,7 +19,7 @@ object CharactersRepository : Repository<Character>() {
     suspend fun find(id: Int): Result<Character> = super.find(
         id,
         findActionRemote = {
-            ApiClient.charactersService.findCharacter(id).data.results.first().asCharacter()
+            service.findCharacter(id).data.results.first().asCharacter()
         },
     )
 }

@@ -7,11 +7,16 @@ import arrow.core.Either
 import com.jujodevs.marvelcompose.data.entities.Comic
 import com.jujodevs.marvelcompose.data.network.entities.Result
 import com.jujodevs.marvelcompose.data.repositories.ComicsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ComicViewModel : ViewModel() {
+@HiltViewModel
+class ComicViewModel @Inject constructor(
+    private val comicsRepository: ComicsRepository
+) : ViewModel() {
 
     private val _state = MutableStateFlow(
         Comic.Format.values().associateWith { mutableStateOf(UiState()) },
@@ -24,7 +29,7 @@ class ComicViewModel : ViewModel() {
 
         viewModelScope.launch {
             uiState.value = UiState(loading = true)
-            uiState.value = UiState(comics = ComicsRepository.get(format))
+            uiState.value = UiState(comics = comicsRepository.get(format))
         }
     }
 

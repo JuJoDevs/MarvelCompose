@@ -6,11 +6,16 @@ import arrow.core.Either
 import com.jujodevs.marvelcompose.data.entities.Character
 import com.jujodevs.marvelcompose.data.network.entities.Result
 import com.jujodevs.marvelcompose.data.repositories.CharactersRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class CharacterViewModel : ViewModel() {
+@HiltViewModel
+class CharacterViewModel @Inject constructor(
+    charactersRepository: CharactersRepository
+) : ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
     val state = _state.asStateFlow()
@@ -18,7 +23,7 @@ class CharacterViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            _state.value = UiState(loading = false, characters = CharactersRepository.get())
+            _state.value = UiState(loading = false, characters = charactersRepository.get())
         }
     }
 

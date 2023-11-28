@@ -1,13 +1,16 @@
 package com.jujodevs.marvelcompose.data.repositories
 
 import com.jujodevs.marvelcompose.data.entities.Event
-import com.jujodevs.marvelcompose.data.network.ApiClient
 import com.jujodevs.marvelcompose.data.network.entities.Result
+import com.jujodevs.marvelcompose.data.network.remote.EventsService
+import javax.inject.Inject
 
-object EventRepository : Repository<Event>() {
+class EventRepository @Inject constructor(
+    private val eventsService: EventsService
+) : Repository<Event>() {
 
     suspend fun get(): Result<List<Event>> = super.get {
-        ApiClient.eventsService.getEvents(
+        eventsService.getEvents(
             super.offset,
             super.limit,
         ).data.results.map { it.asEvent() }
@@ -16,7 +19,7 @@ object EventRepository : Repository<Event>() {
     suspend fun find(id: Int): Result<Event> = super.find(
         id,
         findActionRemote = {
-            ApiClient.eventsService.findEvent(id).data.results.first().asEvent()
+            eventsService.findEvent(id).data.results.first().asEvent()
         },
     )
 }
